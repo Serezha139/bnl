@@ -1,0 +1,20 @@
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block Title %}{% endblock %}</title>
+    <link rel="stylesheet" href={% static "tournament/base.css" %}>
+</head>
+<body>
+<nav>
+    <a href="/standings">{% trans 'CurrentSeason' %}</a>
+    <a href="#">{% trans 'Stats' %}</a>
+</nav>
+{% block content %}
+
+{% endblock %}
+
+</body>
+</html>

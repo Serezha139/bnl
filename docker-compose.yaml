@@ -1,0 +1,11 @@
+version: "3.7"
+services:
+
+  db_local:
+    image: "postgres:latest"
+    environment:
+      POSTGRES_PASSWORD: bnl
+      POSTGRES_USER: bnl
+      POSTGRES_DB: bnl
+    ports:
+      - "5432:5432"
