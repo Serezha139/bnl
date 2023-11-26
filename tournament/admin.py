@@ -23,7 +23,9 @@ class TeamAdmin(admin.ModelAdmin):
 
     def update_team_info(self, request, queryset):
         for team in queryset:
-            team_info = lichess_api_service.get_team_data(team.lichess_id)[1]
+            success, team_info = lichess_api_service.get_team_data(team.lichess_id)
+            if not success:
+                continue
             team.name = team_info['name']
             team.description = team_info['description']
             team.save()
@@ -85,9 +87,13 @@ class SeasonAdmin(admin.ModelAdmin):
 class PlayerAdmin(admin.ModelAdmin):
     search_fields = ['username']
 
+class TournamentTeamResultAdmin(admin.ModelAdmin):
+    list_display = ('tournament', 'team', 'rank', 'score')
+    list_filter = ('tournament', 'team')
+
 admin.site.register(Tournament, TournamentAdmin)
 admin.site.register(Player, PlayerAdmin)
 admin.site.register(Team, TeamAdmin)
 admin.site.register(TournamentPlayerResult)
-admin.site.register(TournamentTeamResult)
+admin.site.register(TournamentTeamResult, TournamentTeamResultAdmin)
 admin.site.register(Season, SeasonAdmin)

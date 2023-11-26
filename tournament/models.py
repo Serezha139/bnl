@@ -43,7 +43,7 @@ class TournamentTeamResult(models.Model):
     score = models.FloatField()
 
     def __str__(self):
-        return self.tournament.name + ' - ' + self.team.name + 'results'
+        return self.tournament.name + ' - ' + self.team.name + ' results'
 
 
 class TournamentPlayerResult(models.Model):

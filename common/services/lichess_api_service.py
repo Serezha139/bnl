@@ -61,5 +61,4 @@ class LichessApiService:
         return True, response.json()
 
 
-
 lichess_api_service = LichessApiService()
