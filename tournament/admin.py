@@ -86,6 +86,7 @@ class SeasonAdmin(admin.ModelAdmin):
 
 class PlayerAdmin(admin.ModelAdmin):
     search_fields = ['username']
+    list_filter = ['is_youngster']
 
 class TournamentTeamResultAdmin(admin.ModelAdmin):
     list_display = ('tournament', 'team', 'rank', 'score')

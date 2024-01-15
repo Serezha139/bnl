@@ -1,5 +1,8 @@
+import io
+from dataclasses import dataclass
 import json
 import requests
+import chess.pgn
 
 GET_TOURNAMENT = 'get_tournament'
 GET_TOURNAMENTS = 'get_tournaments'
@@ -14,8 +17,13 @@ URL_MAP = {
     GET_TOURNAMENT_RESULTS: 'https://lichess.org/api/tournament/{tournament_id}/results',
     GET_PLAYER_INFO: 'https://lichess.org/api/user/{username}',
     GET_TEAM_INFO: 'https://lichess.org/api/team/%s',
-    GET_TOURNAMENT_GAMES: 'https://lichess.org/api/tournament/%s/games?&opening=true&moves=false',
+    GET_TOURNAMENT_GAMES: 'https://lichess.org/api/tournament/%s/games?&opening=true&moves=false&pgnInJson=true',
 }
+
+@dataclass
+class GameDataclass:
+    player_white: str
+    player_black: str
 
 
 class LichessApiService:
@@ -36,12 +44,13 @@ class LichessApiService:
         return True, response.json()
 
     def parse_games(self, games_text):
-        games = []
-        for line in games_text.split('\n'):
-            if not line:
-                games.app
-            games.append(json.loads(line))
-        return games
+        text_io = io.StringIO(games_text)
+
+        while game:= chess.pgn.read_game(text_io):
+            player_white = game.headers['White']
+            player_black = game.headers['Black']
+
+        return
 
     def get_tournament_games(self, tournament_id):
         url = URL_MAP.get(GET_TOURNAMENT_GAMES) % tournament_id

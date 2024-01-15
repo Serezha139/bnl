@@ -67,7 +67,7 @@ class TournamentLoadService:
             data = self._get_tournament_data(tournament.lichess_id + '?page=' + str(i))
             for player_data_set in data['standing']['players']:
                 self.process_player_data(player_data_set, tournament)
-        #self.process_games(tournament)
+        self.process_games(tournament)
         tournament.save()
 
     def load_season_tournaments(self, season):
