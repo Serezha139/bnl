@@ -45,18 +45,19 @@ class TournamentLoadService:
         )
 
     def process_games(self, tournament):
-        success, response = lichess_api_service.get_tournament_games(tournament.lichess_id)
-        games_to_save = []
+        success, games = lichess_api_service.get_tournament_games(tournament.lichess_id)
         for game in games:
-            new_game = Game(
-                player_white=Player.objects.get(lichess_id=game['players']['white']['userId']),
-                player_black=Player.objects.get(lichess_id=game['players']['black']['userId']),
-                tournament=tournament,
-                result=game['status'],
-                opening=game['opening']['name'],
+            new_game, _ = Game.objects.get_or_create(
+                link=game.link,
+                defaults={
+                    'player_white': Player.objects.get(lichess_id=game.player_white),
+                    'player_black': Player.objects.get(lichess_id=game.player_black),
+                    'tournament': tournament,
+                    'result': game.result,
+                    'opening': game.opening,
+                }
             )
-            games_to_save.append(new_game)
-        Game.objects.bulk_create(games_to_save)
+
 
     def process_tournament(self, tournament):
         data = self._get_tournament_data(tournament.lichess_id)

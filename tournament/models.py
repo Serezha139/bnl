@@ -6,6 +6,7 @@ class Team(models.Model):
     lichess_id = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     link = models.URLField(null=True, blank=True)
+    current_season_players = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.name

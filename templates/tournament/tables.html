@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Current Season Results</title>
+    <style>
+        .styled-table-young {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+        .styled-table-young thead tr {
+    background-color: #005998;
+    color: #ffffff;
+    text-align: left;
+}
+        .styled-table-young th,
+.styled-table-young td {
+    padding: 12px 15px;
+}
+        .styled-table-young tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table-young tbody tr:nth-of-type(even) {
+    background-color: #ecd8bc;
+}
+.styled-table-young tbody tr:nth-child(n + 13) {
+  background-color: #c9c4c4; /* Change this to your desired darker color */
+  color: #fff; /* Change text color to make it readable on the darker background */
+}
+
+.styled-table-young tbody tr:last-of-type {
+    border-bottom: 2px solid #003398;
+}
+.styled-table-young tbody tr.active-row {
+    font-weight: bold;
+    color: #005e98;
+}
+    </style>
+</head>
+<body>
+<a style="align-content: center">
+    <h1 style="align-content: center">БНЛ ОСЕНЬ 2023</h1>
+
+
+<table class="styled-table-young">
+    <thead>
+        <tr>
+            <th>Место</th>
+            <th>Игрок</th>
+            <th>Сезонные очки</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for key, value in players.items  %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ key }}</td>
+            <td>{{ value }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</a>
+
+</body>
+</html>
+

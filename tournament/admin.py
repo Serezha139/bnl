@@ -84,6 +84,7 @@ class SeasonAdmin(admin.ModelAdmin):
         tournament_load_service.load_season_tournaments(season)
         messages.success(request, 'Tournaments loaded successfully')
 
+
 class PlayerAdmin(admin.ModelAdmin):
     search_fields = ['username']
     list_filter = ['is_youngster']
@@ -91,6 +92,7 @@ class PlayerAdmin(admin.ModelAdmin):
 class TournamentTeamResultAdmin(admin.ModelAdmin):
     list_display = ('tournament', 'team', 'rank', 'score')
     list_filter = ('tournament', 'team')
+
 
 admin.site.register(Tournament, TournamentAdmin)
 admin.site.register(Player, PlayerAdmin)

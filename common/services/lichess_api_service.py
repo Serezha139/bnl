@@ -24,6 +24,11 @@ URL_MAP = {
 class GameDataclass:
     player_white: str
     player_black: str
+    result: str
+    opening: str
+    link: str
+    tournament: str
+
 
 
 class LichessApiService:
@@ -45,12 +50,17 @@ class LichessApiService:
 
     def parse_games(self, games_text):
         text_io = io.StringIO(games_text)
-
-        while game:= chess.pgn.read_game(text_io):
+        games_to_return = []
+        while game := chess.pgn.read_game(text_io):
             player_white = game.headers['White']
             player_black = game.headers['Black']
+            result = game.headers['Result']
+            opening = game.headers['Opening']
+            link = game.headers['Site']
+            tournament = game.headers['Event']
+            games_to_return.append(GameDataclass(player_white, player_black, result, opening, link, tournament))
 
-        return
+        return games_to_return
 
     def get_tournament_games(self, tournament_id):
         url = URL_MAP.get(GET_TOURNAMENT_GAMES) % tournament_id
@@ -58,7 +68,7 @@ class LichessApiService:
         if not response.status_code == 200:
             return False, {'error_status_code': response.status_code}
         games = self.parse_games(response.text)
-        return True, response
+        return True, games
 
     @staticmethod
     def get_team_data(team_id):
