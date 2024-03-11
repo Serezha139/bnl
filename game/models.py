@@ -22,3 +22,6 @@ class Game(models.Model):
     opening = models.CharField(max_length=200, null=True, blank=True)
     moves = models.TextField(null=True, blank=True)
     link = models.URLField(null=True, blank=True, unique=True)
+
+    def __str__(self):
+        return self.player_white.username + ' vs ' + self.player_black.username + ' - ' + self.result

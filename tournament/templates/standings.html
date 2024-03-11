@@ -58,4 +58,23 @@
         </tbody>
     </table>
 
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Woman Player</th>
+                <th>Points</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in results_woman %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{item.0}}</td>
+                <td>{{item.1}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
 {% endblock %}

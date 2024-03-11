@@ -17,9 +17,10 @@ class Player(models.Model):
     lichess_id = models.CharField(max_length=200, null=True, blank=True)
     rating = models.IntegerField(null=True, blank=True)
     link = models.URLField(null=True, blank=True)
-    teams = models.ManyToManyField(Team, blank=True)
+    team = models.ForeignKey(Team, blank=False, on_delete=models.SET_NULL, null=True, related_name='players')
     created_at = models.DateTimeField(auto_created=True, auto_now_add=True)
     is_youngster = models.BooleanField(default=False)
+    is_woman = models.BooleanField(default=False)
 
     def __str__(self):
         return self.username

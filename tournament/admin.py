@@ -87,16 +87,29 @@ class SeasonAdmin(admin.ModelAdmin):
 
 class PlayerAdmin(admin.ModelAdmin):
     search_fields = ['username']
-    list_filter = ['is_youngster']
+    list_filter = ['is_youngster', 'is_woman', 'team']
+    actions = ['mark_as_youngster', 'mark_as_woman']
+
+    def mark_as_youngster(self, request, queryset):
+        queryset.update(is_youngster=True)
+
+    def mark_as_woman(self, request, queryset):
+        queryset.update(is_woman=True)
+
 
 class TournamentTeamResultAdmin(admin.ModelAdmin):
     list_display = ('tournament', 'team', 'rank', 'score')
     list_filter = ('tournament', 'team')
 
 
+class TournamentPlayerResultAdmin(admin.ModelAdmin):
+    list_display = ('tournament', 'player', 'rank', 'score', 'team')
+    list_filter = ('tournament', 'player', 'team')
+
+
 admin.site.register(Tournament, TournamentAdmin)
 admin.site.register(Player, PlayerAdmin)
 admin.site.register(Team, TeamAdmin)
-admin.site.register(TournamentPlayerResult)
+admin.site.register(TournamentPlayerResult, TournamentPlayerResultAdmin)
 admin.site.register(TournamentTeamResult, TournamentTeamResultAdmin)
 admin.site.register(Season, SeasonAdmin)
