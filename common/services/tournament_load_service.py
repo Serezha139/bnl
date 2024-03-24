@@ -78,7 +78,7 @@ class TournamentLoadService:
             data = self._get_tournament_data(tournament.lichess_id + '?page=' + str(i))
             for player_data_set in data['standing']['players']:
                 self.process_player_data(player_data_set, tournament)
-        self.process_games(tournament)
+        # self.process_games(tournament)
         tournament.save()
 
     def load_season_tournaments(self, season):
@@ -87,7 +87,7 @@ class TournamentLoadService:
             return False, response
         for line in response.text.split('\n'):
             tournament_data = json.loads(line)
-            if season.name:
+            if season.name in tournament_data['fullName']:
                 tournament, _ = Tournament.objects.get_or_create(
                     lichess_id=tournament_data['id'],
                     defaults={
