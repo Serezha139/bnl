@@ -11,11 +11,15 @@ from .models import Tournament, Team, Player, TournamentPlayerResult, Tournament
 
 class TournamentAdmin(admin.ModelAdmin):
     list_display = ('name', 'date', 'description', 'link')
-    actions = ['update_data_from_lichess']
+    actions = ['update_data_from_lichess', 'load_games_from_lichess']
 
     def update_data_from_lichess(self,  request, queryset):
         for tournament in queryset:
             tournament_load_service.process_tournament(tournament)
+
+    def load_games_from_lichess(self, request, queryset):
+        for tournament in queryset:
+            tournament_load_service.process_games(tournament)
 
 
 class TeamAdmin(admin.ModelAdmin):
