@@ -1,6 +1,6 @@
 from tournament.models import Season
 
-YONGSTER_POINTS_MAP = {
+SUBCATEGORY_POINTS_MAP = {
     1: 13,
     2: 10,
     3: 8,
@@ -47,7 +47,8 @@ TEAM_POINTS_MAP = {
 }
 
 
-class ReportService:
+class PlainStandingsService:
+
     def generate_player_standings_for_season(self, season):
         player_points = {}
         for tournament in season.tournament_set.all():
@@ -58,7 +59,7 @@ class ReportService:
                         PLAYER_POINTS_MAP.get(player_result.rank, 0)
                 )
         sorted_results = sorted(player_points.items(), key=lambda x:x[1], reverse=True)
-        return sorted_results[0:30]
+        return sorted_results
 
     def generate_team_standings_for_season(self, season):
         team_points = {}
@@ -67,7 +68,7 @@ class ReportService:
                 team = team_result.team
                 team_points[team.name] = team_points.get(team.name, 0) + TEAM_POINTS_MAP.get(team_result.rank, 0)
         sorted_results = sorted(team_points.items(), key=lambda x: x[1], reverse=True)
-        return sorted_results[0:10]
+        return sorted_results
 
     def generate_team_standings_for_current_season(self):
         season = Season.objects.filter(is_current=True).first()
@@ -83,11 +84,10 @@ class ReportService:
 
     def generate_woman_standings_for_current_season(self):
         season = Season.objects.filter(is_current=True).first()
-        return self.generate_woman_standings_for_season(season)
+        return self.generate_women_standings_for_season(season)
 
     def generate_youngster_standings_for_season(self, season):
         player_points = {}
-
         for tournament in season.tournament_set.all():
             players_ranks = {}
             for player_result in tournament.tournamentplayerresult_set.all():
@@ -97,11 +97,11 @@ class ReportService:
                 players_ranks[player.username] = player_result.rank
             sorted_results = sorted(players_ranks.items(), key=lambda x: x[1])
             for i, (player, rank) in enumerate(sorted_results):
-                player_points[player] = player_points.get(player, 0) + YONGSTER_POINTS_MAP.get(i + 1, 0)
+                player_points[player] = player_points.get(player, 0) + SUBCATEGORY_POINTS_MAP.get(i + 1, 0)
 
         return sorted(player_points.items(), key=lambda x: x[1], reverse=True)
 
-    def generate_woman_standings_for_season(self, season):
+    def generate_women_standings_for_season(self, season):
         player_points = {}
 
         for tournament in season.tournament_set.all():
@@ -113,6 +113,6 @@ class ReportService:
                 players_ranks[player.username] = player_result.rank
             sorted_results = sorted(players_ranks.items(), key=lambda x: x[1])
             for i, (player, rank) in enumerate(sorted_results):
-                player_points[player] = player_points.get(player, 0) + YONGSTER_POINTS_MAP.get(i + 1, 0)
+                player_points[player] = player_points.get(player, 0) + SUBCATEGORY_POINTS_MAP.get(i + 1, 0)
 
         return sorted(player_points.items(), key=lambda x: x[1], reverse=True)

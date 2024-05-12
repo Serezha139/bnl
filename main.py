@@ -86,7 +86,6 @@ woman_players_result = full_players_results_df[full_players_results_df['is_woman
 young_players_result['place'] = young_players_result.groupby('tournament')['rank'].rank(method='dense')
 woman_players_result['place'] = woman_players_result.groupby('tournament')['rank'].rank(method='dense')
 
-
 player_season_points = full_players_results_df.groupby('username').apply(calculate_total_points).sort_values('total_points', ascending=False).reset_index()
 team_season_points = full_teams_results_df.groupby('name').apply(calculate_total_team_points).sort_values('total_points', ascending=False).reset_index()
 young_players_points = young_players_result.groupby('username').apply(calculate_total_points_sub).sort_values('total_points', ascending=False).reset_index()

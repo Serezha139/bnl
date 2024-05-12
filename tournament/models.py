@@ -47,6 +47,9 @@ class TournamentTeamResult(models.Model):
     def __str__(self):
         return self.tournament.name + ' - ' + self.team.name + ' results'
 
+    class Meta:
+        unique_together = ['tournament', 'team']
+
 
 class TournamentPlayerResult(models.Model):
     tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
@@ -64,6 +67,8 @@ class TournamentPlayerResult(models.Model):
 
 class Season(models.Model):
     name = models.CharField(max_length=200)
+    start_date = models.DateTimeField(blank=True, null=True)
+    end_date = models.DateTimeField(blank=True, null=True)
     is_current = models.BooleanField(default=True)
 
     def __str__(self):

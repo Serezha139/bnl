@@ -2,10 +2,10 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.shortcuts import render
-from common.services.score_report_service import ReportService
+from fatcories.plain_standings import PlainStandingsService as report_service
 
 def standings(request):
-    service = ReportService()
+    service = report_service()
     results_player = service.generate_player_standings_for_current_season()
     results_team = service.generate_team_standings_for_current_season()
     results_young = service.generate_youngster_standings_for_current_season()

@@ -3,9 +3,9 @@ import csv
 from django.contrib import admin, messages
 from django.http import HttpResponse
 
-from common.services.lichess_api_service import lichess_api_service
-from common.services.score_report_service import ReportService
-from common.services.tournament_load_service import tournament_load_service
+from services.lichess_api_service import lichess_api_service
+from fatcories.plain_standings import PlainStandingsService as ReportService
+from services.tournament_load_service import tournament_load_service
 from .models import Tournament, Team, Player, TournamentPlayerResult, TournamentTeamResult, Season
 
 
@@ -61,7 +61,7 @@ class SeasonAdmin(admin.ModelAdmin):
         writer = csv.writer(response)
         season = queryset[0]
         report_service = ReportService()
-        player_standings = report_service.generate_player_standings_for_season(season)
+        player_standings = report_service.generate_player_standings_for_season(season)[0:30]
         for player in player_standings:
             writer.writerow([player['rank'], player['player'], player['score']])
         return response

@@ -2,7 +2,7 @@ import json
 from django.conf import settings
 from django.contrib import messages
 
-from common.services.lichess_api_service import lichess_api_service
+from services.lichess_api_service import lichess_api_service
 from game.models import Game
 from tournament.models import (
     Player,
@@ -15,10 +15,6 @@ from tournament.models import (
 
 class TournamentLoadService:
     def _get_tournament_data(self, tournament_id):
-        if settings.MOCK_RESPONSES:
-            f = open('/Users/givanov/PycharmProjects/bnl/bnl/response_examples/tournament_results.json')
-            line = f.readline()
-            return json.loads(line)
         success, data = lichess_api_service.get_tournament_data(tournament_id)
         if not success:
             return {}
@@ -81,12 +77,13 @@ class TournamentLoadService:
         tournament.save()
 
     def load_season_tournaments(self, season):
-        success, response = lichess_api_service.get_user_tournaments()
+        success, response = lichess_api_service.get_league_tournaments()
         if not success:
             return False, response
+        season_start_date = season.start_date.timestamp()
         for line in response.text.split('\n'):
             tournament_data = json.loads(line)
-            if season.name in tournament_data['fullName']:
+            if season_start_date < tournament_data['startsAt']:
                 tournament, _ = Tournament.objects.get_or_create(
                     lichess_id=tournament_data['id'],
                     defaults={

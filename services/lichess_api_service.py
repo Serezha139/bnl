@@ -32,13 +32,15 @@ class GameDataclass:
 
 
 class LichessApiService:
-    def get_user_tournaments(self):
+    @staticmethod
+    def get_league_tournaments():
         url = URL_MAP.get(GET_TOURNAMENTS)
         response = requests.get(url)
         if not response.status_code == 200:
             return False, {'error_status_code': response.status_code}
 
         return True, response
+
     @staticmethod
     def get_tournament_data(tournament_id):
         url = URL_MAP.get(GET_TOURNAMENT) % tournament_id
@@ -48,7 +50,8 @@ class LichessApiService:
 
         return True, response.json()
 
-    def parse_games(self, games_text):
+    @staticmethod
+    def parse_games(games_text):
         text_io = io.StringIO(games_text)
         games_to_return = []
         while game := chess.pgn.read_game(text_io):
