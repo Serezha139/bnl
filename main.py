@@ -69,7 +69,6 @@ player_info = make_dict_from_raw_data(player_info_raw)
 tournament_results = make_dict_from_raw_data(tournament_results_raw)
 player_results = make_dict_from_raw_data(player_results_raw)
 
-
 tournament_df = pd.DataFrame(tournament_info)
 team_df = pd.DataFrame(team_info)
 player_df = pd.DataFrame(player_info)

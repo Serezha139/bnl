@@ -1,50 +1,5 @@
 from tournament.models import Season
-
-SUBCATEGORY_POINTS_MAP = {
-    1: 13,
-    2: 10,
-    3: 8,
-    4: 6,
-    5: 5,
-    6: 4,
-    7: 3,
-    8: 2,
-    9: 1,
-}
-
-PLAYER_POINTS_MAP = {
-    1: 25,
-    2: 22,
-    3: 20,
-    4: 18,
-    5: 17,
-    6: 16,
-    7: 15,
-    8: 14,
-    9: 13,
-    10: 12,
-    11: 11,
-    12: 10,
-    13: 9,
-    14: 8,
-    15: 7,
-    16: 6,
-    17: 5,
-    18: 4,
-    19: 3,
-    20: 2,
-}
-
-TEAM_POINTS_MAP = {
-    1: 13,
-    2: 10,
-    3: 8,
-    4: 6,
-    5: 5,
-    6: 4,
-    7: 3,
-    8: 2,
-}
+from fatcories.common import PLAYER_POINTS_MAP, TEAM_POINTS_MAP, SMALL_POINTS_MAP
 
 
 class PlainStandingsService:
@@ -97,7 +52,7 @@ class PlainStandingsService:
                 players_ranks[player.username] = player_result.rank
             sorted_results = sorted(players_ranks.items(), key=lambda x: x[1])
             for i, (player, rank) in enumerate(sorted_results):
-                player_points[player] = player_points.get(player, 0) + SUBCATEGORY_POINTS_MAP.get(i + 1, 0)
+                player_points[player] = player_points.get(player, 0) + SMALL_POINTS_MAP.get(i + 1, 0)
 
         return sorted(player_points.items(), key=lambda x: x[1], reverse=True)
 
@@ -113,6 +68,6 @@ class PlainStandingsService:
                 players_ranks[player.username] = player_result.rank
             sorted_results = sorted(players_ranks.items(), key=lambda x: x[1])
             for i, (player, rank) in enumerate(sorted_results):
-                player_points[player] = player_points.get(player, 0) + SUBCATEGORY_POINTS_MAP.get(i + 1, 0)
+                player_points[player] = player_points.get(player, 0) + SMALL_POINTS_MAP.get(i + 1, 0)
 
         return sorted(player_points.items(), key=lambda x: x[1], reverse=True)

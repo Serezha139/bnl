@@ -40,11 +40,20 @@ class TournamentLoadService:
                 'team': Team.objects.get(lichess_id=player_data_set['team']),
             }
         )
-        player_result, _ = TournamentPlayerResult.objects.get_or_create(
-            player=player,
-            tournament=tournament,
-            defaults={'score': player_data_set['score'], 'rank': player_data_set['rank']}
-        )
+        try:
+            player_result = TournamentPlayerResult.objects.get(
+                player=player,
+                tournament=tournament,
+            )
+        except TournamentPlayerResult.DoesNotExist:
+            player_result = TournamentPlayerResult(
+                player=player,
+                tournament=tournament,
+            )
+        player_result.rank = player_data_set['rank']
+        player_result.score = player_data_set['score']
+        player_result.nb_games = len(player_data_set['sheet']['scores'])
+        player_result.save()
 
     def process_games(self, tournament):
         success, games = lichess_api_service.get_tournament_games(tournament.lichess_id)
