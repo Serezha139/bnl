@@ -31,10 +31,10 @@ def make_dict_from_raw_data(raw_data):
     return result
 
 
-tournament_info_raw = json.load(open('data/tournament.json'))
-team_info_raw = json.load(open('data/team.json'))
-player_info_raw = json.load(open('data/player.json'))
-player_results_raw = json.load(open('data/TournamentPlayerResult.json'))
+tournament_info_raw = json.load(open('./data/tournament.json'))
+team_info_raw = json.load(open('./data/team.json'))
+player_info_raw = json.load(open('./data/player.json'))
+player_results_raw = json.load(open('./data/TournamentPlayerResult.json'))
 
 team_info = make_dict_from_raw_data(team_info_raw)
 player_info = make_dict_from_raw_data(player_info_raw)
